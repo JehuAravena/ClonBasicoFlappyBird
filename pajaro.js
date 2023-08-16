@@ -1,4 +1,4 @@
-// Crear el lienzo y obtener el contexto
+
 const canvas = document.getElementById("bird");
 const context = canvas.getContext("2d");
 
@@ -45,7 +45,7 @@ function draw() {
   context.fillStyle = "#82b2ff";
   context.fillRect(0, 0, bird.anchoCanvas, bird.altoCanvas);
 
-  // tubos
+
   context.fillStyle = "#028200";
   context.fillRect(
     bird.tubos.arriba.x,
@@ -54,7 +54,7 @@ function draw() {
     bird.tubos.arriba.alto
   );
 
-  // dibujar el tubo abajo
+
   context.fillRect(
     bird.tubos.abajo.x,
     bird.tubos.abajo.y,
@@ -62,7 +62,7 @@ function draw() {
     bird.tubos.abajo.alto
   );
 
-  // jugador
+
   context.fillStyle = "#fff200";
   context.fillRect(
     bird.jugador.x,
@@ -71,7 +71,7 @@ function draw() {
     bird.jugador.alto
   );
 
-  // puntaje
+
   context.font = "40px Arial";
   context.fillText(bird.puntos, canvas.width / 2, 50);
 
@@ -87,12 +87,12 @@ function draw() {
 }
 
 function update() {
-  // si no ha hecho click no empieza
+
   if (!iniciado) {
     return;
   }
 
-  // mover los tubos hacia la izquierda
+
   bird.tubos.arriba.x -= bird.tubos.arriba.velocidad;
   bird.tubos.abajo.x -= bird.tubos.abajo.velocidad;
 
@@ -100,7 +100,7 @@ function update() {
     bird.tubos.arriba.x = canvas.width;
     bird.tubos.abajo.x = canvas.width;
 
-    // posicion aleatoria
+  
     let rng = Math.random() * (canvas.height - 200);
     bird.tubos.abajo.y = rng + 150;
     bird.tubos.arriba.y = rng + 9 - 500;
@@ -108,15 +108,15 @@ function update() {
     bird.puntos++;
   }
 
-  // incrementar velocidad
+
   bird.tubos.arriba.velocidad += 0.0005;
   bird.tubos.abajo.velocidad += 0.0005;
 
-  // gravedad
+
   bird.jugador.caida += bird.jugador.gravedad;
   bird.jugador.y += bird.jugador.caida;
 
-  // bordes
+
   if (bird.jugador.y + bird.jugador.alto > bird.altoCanvas) {
     bird.jugador.y = bird.altoCanvas - bird.jugador.alto;
     bird.jugador.caida = 0;
@@ -125,7 +125,7 @@ function update() {
     bird.jugador.caida = 0;
   }
 
-  // pierde
+
   if (
     bird.jugador.x < bird.tubos.arriba.x + bird.tubos.arriba.ancho &&
     bird.jugador.x + bird.jugador.ancho > bird.tubos.arriba.x &&
@@ -163,18 +163,17 @@ function gameOver() {
   cancion.pause();
   cancion = new Audio("bonk.ogg");
   cancion.play();
-  // esperar .01 segundos para la alerta
+
   setTimeout(function () {
     alert("Chocaste, tu puntuacion fue: " + puntaje);
   }, 10);
-  // reiniciar la variable
+
   reproducido = false;
   cancion = new Audio("musica.ogg");
 }
 
-// si la cancion termina loopearla
 cancion.addEventListener("ended", function () {
-  // loop
+
   cancion.loop = true;
   cancion.play();
 });
@@ -190,10 +189,9 @@ function iniciar() {
   }
 }
 
-// si se le cambia el volumen
 let slider = document.getElementById("volume-slider");
 slider.addEventListener("input", function () {
-  // actualizar el volumen
+
   cancion.volume = slider.value / 100;
 });
 
@@ -206,5 +204,4 @@ function gameLoop() {
 document.addEventListener("click", salto);
 document.addEventListener("click", iniciar);
 
-// Iniciar el bucle del juego a una velocidad de 120 FPS
 setInterval(gameLoop, 1000 / 60);
